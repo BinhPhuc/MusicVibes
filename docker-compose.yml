@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8
+    container_name: mysql_container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: MusicApp
+      # MYSQL_USER: root
+      MYSQL_PASSWORD: rootpassword
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    ports:
+      - "3306:3306"
+    # volumes:
+    #   - './docker/db/data:/var/lib/mysql'
+    #   - './docker/db/my.cnf:/etc/mysql/conf.d/my.cnf'
+    networks:
+      - my_network
+
+  backend:
+    build: ./MusicWebApp_SpringBoot  
+    container_name: backend_container
+    restart: always
+    ports:
+      - "8088:8088"
+      - "8080:8080"
+    depends_on:
+      - db  
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql_container:3306/MusicApp?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: rootpassword
+    networks:
+      - my_network
+
+  frontend:
+    build: ./MusicWebApp_Angular 
+    container_name: frontend_container
+    restart: always
+    ports:
+      - "4200:4200" 
+    depends_on:
+      - backend 
+    networks:
+      - my_network
+
+volumes:
+  db_data:  
+ 
+networks:
+  my_network:
+    driver: bridge 

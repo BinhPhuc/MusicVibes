@@ -1,0 +1,164 @@
+.content-container {
+    min-height: calc(100vh - 120px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #dfefff;
+    padding: 20px;
+}
+
+.login-container {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 350px;
+}
+
+.login-container h2 {
+    margin-bottom: 20px;
+    color: #1e3c72;
+    font-weight: bold;
+    text-align: center;
+}
+
+.form-control {
+    border-radius: 5px;
+}
+
+.btn-primary {
+    background-color: #1e3c72;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #163b68;
+}
+
+.forgot-password {
+    color: #1e3c72;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+.register-text {
+    font-size: 14px;
+}
+
+.register-link {
+    color: #1e3c72;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.register-link:hover {
+    text-decoration: underline;
+}
+
+.text-danger {
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    color: #1e3c72;
+    transition: color 0.3s ease;
+}
+
+.form-control {
+    padding-right: 40px;
+    height: 40px;
+    line-height: 40px;
+}
+
+.toggle-password:hover {
+    color: #163b68;
+}
+
+.toast-container {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    z-index: 1050;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.toast {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 10px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transform: translateX(100%);
+    opacity: 0;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    min-width: 200px;
+    max-width: 280px;
+    font-size: 14px;
+    gap: 10px;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.toast.hide {
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+.toast.success {
+    background-color: #28a745;
+    color: white;
+}
+
+.toast.error {
+    background-color: #dc3545;
+    color: white;
+}
+
+.toast .toast-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.toast .toast-close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toast .toast-close-btn:hover {
+    color: #f8d7da;
+}
+
+.toast i {
+    font-size: 16px;
+}

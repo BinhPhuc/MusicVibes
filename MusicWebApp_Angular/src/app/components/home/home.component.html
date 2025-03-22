@@ -1,0 +1,307 @@
+<app-home-header></app-home-header>
+<div class="container-fluid home-container">
+    <div class="row">
+        <div class="col-md-8 song-list">
+            <div class="d-flex justify-content-between mb-4">
+                <h2 class="section-title">
+                    {{
+                        isFavoritePage
+                            ? "🎵 All Favorite Songs"
+                            : "🎵 All Songs"
+                    }}
+                </h2>
+                <label
+                    *ngIf="!isFavoritePage"
+                    for="fileUpload"
+                    class="upload-btn"
+                >
+                    <i class="fa-solid fa-cloud-upload"></i> Upload your own
+                </label>
+                <input
+                    type="file"
+                    id="fileUpload"
+                    hidden
+                    (change)="onUpload($event)"
+                    multiple
+                />
+            </div>
+
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Title</th>
+                            <th>Artist</th>
+                            <th>Genre</th>
+                            <th>Album</th>
+                            <th>Duration</th>
+                            <th>Features</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            *ngFor="let song of songs; let i = index"
+                            (mouseenter)="hoveredIndex = i"
+                            (mouseleave)="hoveredIndex = -1"
+                            (dblclick)="playSong(song)"
+                        >
+                            <td class="play-cell">
+                                <button
+                                    *ngIf="
+                                        hoveredIndex === i &&
+                                        !chkPlaying(song.id)
+                                    "
+                                    class="play-btn"
+                                    (click)="playSong(song)"
+                                >
+                                    <i class="fa-solid fa-play"></i>
+                                </button>
+                                <button
+                                    *ngIf="
+                                        hoveredIndex === i &&
+                                        chkPlaying(song.id)
+                                    "
+                                    class="play-btn"
+                                    (click)="pauseSong(song.id)"
+                                >
+                                    <i class="fa-solid fa-pause"></i>
+                                </button>
+                                <span *ngIf="hoveredIndex !== i">{{
+                                    i + 1
+                                }}</span>
+                            </td>
+                            <td>{{ song.title }}</td>
+                            <td>{{ song.artist }}</td>
+                            <td>{{ song.genre }}</td>
+                            <td>{{ song.album }}</td>
+                            <td>{{ song.duration }}</td>
+                            <td>
+                                <div
+                                    class="action-group d-flex justify-content-between"
+                                >
+                                    <div
+                                        class="d-flex justify-content-between align-items-center"
+                                    >
+                                        <button
+                                            class="fav-btn"
+                                            (click)="toggleFavorite(song)"
+                                        >
+                                            <i
+                                                class="fa-solid fa-heart"
+                                                [class.favorited]="
+                                                    song.is_favorite
+                                                "
+                                            ></i>
+                                        </button>
+                                        <div class="dropdown">
+                                            <button
+                                                class="action-btn dropdown-toggle"
+                                                type="button"
+                                                data-bs-toggle="dropdown"
+                                            >
+                                                <i
+                                                    class="fa-solid fa-list-ul"
+                                                ></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li
+                                                    *ngFor="
+                                                        let playlist of playlists
+                                                    "
+                                                >
+                                                    <a
+                                                        class="dropdown-item"
+                                                        (click)="
+                                                            selectPlaylist(
+                                                                playlist,
+                                                                song
+                                                            )
+                                                        "
+                                                        >{{ playlist.name }}</a
+                                                    >
+                                                </li>
+                                                <a
+                                                    class="dropdown-item"
+                                                    (click)="
+                                                        createPlaylistFromSong(
+                                                            song
+                                                        )
+                                                    "
+                                                    ><i
+                                                        class="fa-solid fa-plus"
+                                                    ></i>
+                                                    <span
+                                                        style="margin-left: 5px"
+                                                        >New playlist</span
+                                                    ></a
+                                                >
+                                            </ul>
+                                        </div>
+                                        <button
+                                            class="action-btn"
+                                            (click)="addToQueue(song)"
+                                        >
+                                            <i class="fa-solid fa-clock"></i>
+                                        </button>
+                                    </div>
+                                    <div class="">
+                                        <button
+                                            class="action-btn"
+                                            (click)="downloadSong(song)"
+                                        >
+                                            <i class="fa-solid fa-download"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-md-4 player">
+            <div class="player-box">
+                <div class="album-placeholder">
+                    <img src="../../../assets/pic.png" alt="1975 pic" />
+                </div>
+                <h3>{{ currentSong ? currentSong.title : "Unknow title" }}</h3>
+                <p>{{ currentSong ? currentSong.artist : "Unknow artist " }}</p>
+                <p class="queue-info-above">
+                    Next in queue:
+                    <b>{{
+                        queue.length > 0
+                            ? queue[0].title
+                            : getNextSong(currentSong).title
+                    }}</b>
+                </p>
+                <audio
+                    #audioPlayer
+                    controls
+                    controlsList="nodownload noplaybackrate"
+                ></audio>
+
+                <div class="controls">
+                    <button class="control-btn" (click)="toggleShuffle()">
+                        <i
+                            class="fa-solid fa-shuffle"
+                            [class.shuffle]="isShuffle"
+                        ></i>
+                    </button>
+                    <button class="control-btn" (click)="prevSong()">
+                        <i class="fa-solid fa-backward-step"></i>
+                    </button>
+
+                    <button
+                        class="control-btn play-pause-btn"
+                        (click)="
+                            isPlaying(currentSong)
+                                ? pauseSong(currentSong.id)
+                                : playSong(currentSong)
+                        "
+                    >
+                        <i
+                            class="fa-solid"
+                            [class.fa-play]="!isPlaying(currentSong)"
+                            [class.fa-pause]="isPlaying(currentSong)"
+                        ></i>
+                    </button>
+
+                    <button class="control-btn" (click)="nextSong()">
+                        <i class="fa-solid fa-forward-step"></i>
+                    </button>
+                    <button class="control-btn" (click)="toggleReplay()">
+                        <i
+                            class="fa-solid fa-repeat"
+                            [class.replay]="isReplay"
+                        ></i>
+                    </button>
+                </div>
+            </div>
+            <div class="queue-buttons">
+                <button class="queue-btn" (click)="openQueueModal()">
+                    <i class="fa-solid fa-music"></i> Queue
+                </button>
+
+                <button class="recently-played-btn" (click)="openRecentModal()">
+                    <i class="fa-solid fa-clock-rotate-left"></i> Recently
+                    Played
+                </button>
+            </div>
+            <div
+                class="modal"
+                [class.show]="isQueueOpen"
+                (click)="closeQueueModal()"
+            >
+                <div class="modal-content" (click)="$event.stopPropagation()">
+                    <h2>Now In Queue</h2>
+                    <ul>
+                        <li *ngFor="let song of queue; let i = index">
+                            <div
+                                class="d-flex justify-content-between"
+                                style="width: 100%"
+                            >
+                                <span class="song-title"
+                                    >{{ song.title }} - {{ song.artist }}</span
+                                >
+                                <button
+                                    class="delete-btn"
+                                    (click)="deleteFromQueue(i)"
+                                >
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                    <button class="close-btn" (click)="closeQueueModal()">
+                        Đóng
+                    </button>
+                </div>
+            </div>
+            <div
+                class="modal"
+                [class.show]="isRecentOpen"
+                (click)="closeRecentModal()"
+            >
+                <div class="modal-content" (click)="$event.stopPropagation()">
+                    <h2>Recently Played</h2>
+                    <ul>
+                        <li *ngFor="let song of recentlyPlayed">
+                            {{ song.title }} - {{ song.artist }}
+                        </li>
+                    </ul>
+                    <button class="close-btn" (click)="closeRecentModal()">
+                        Đóng
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="toast-container">
+    <div
+        class="toast"
+        [ngClass]="{
+            show: isToastVisible,
+            success: toastType === 'success',
+            error: toastType === 'error'
+        }"
+    >
+        <div class="toast-content">
+            <i
+                class="fa-solid"
+                [ngClass]="{
+                    'fa-circle-check': toastType === 'success',
+                    'fa-triangle-exclamation': toastType === 'error'
+                }"
+            ></i>
+            <span>{{ toastMessage }}</span>
+        </div>
+        <button class="toast-close-btn" (click)="hideToast()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+</div>
+
+<app-home-footer></app-home-footer>

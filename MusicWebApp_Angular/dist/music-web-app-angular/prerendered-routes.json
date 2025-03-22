@@ -1,0 +1,9 @@
+{
+  "routes": [
+    "/favorite",
+    "/home",
+    "/login",
+    "/playlist",
+    "/register"
+  ]
+}

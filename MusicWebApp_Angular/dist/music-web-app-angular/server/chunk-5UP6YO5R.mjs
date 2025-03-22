@@ -1,0 +1,2 @@
+import './polyfills.server.mjs';
+import{a as o,b as e,o as c}from"./chunk-X7WAPDBZ.mjs";import{A as a,B as l}from"./chunk-BMAIRAQG.mjs";var s=/^[\x21-\x7e©][\x20-\x7e\x00()]{3}/,u={len:4,get:(n,t)=>{let r=o(n.slice(t,t+u.len),"latin1");if(!r.match(s))throw new a(`FourCC contains invalid characters: ${c(r)} "${r}"`);return r},put:(n,t,r)=>{let i=e(r);if(i.length!==4)throw new l("Invalid length");return n.set(i,t),t+4}};export{u as a};

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../../node_modules/music-metadata/lib/common/FourCC.js"],
+  "sourcesContent": ["import { stringToUint8Array, uint8ArrayToString } from 'uint8array-extras';\nimport * as util from './Util.js';\nimport { InternalParserError, FieldDecodingError } from '../ParseError.js';\nconst validFourCC = /^[\\x21-\\x7e©][\\x20-\\x7e\\x00()]{3}/;\n/**\n * Token for read FourCC\n * Ref: https://en.wikipedia.org/wiki/FourCC\n */\nexport const FourCcToken = {\n    len: 4,\n    get: (buf, off) => {\n        const id = uint8ArrayToString(buf.slice(off, off + FourCcToken.len), 'latin1');\n        if (!id.match(validFourCC)) {\n            throw new FieldDecodingError(`FourCC contains invalid characters: ${util.a2hex(id)} \"${id}\"`);\n        }\n        return id;\n    },\n    put: (buffer, offset, id) => {\n        const str = stringToUint8Array(id);\n        if (str.length !== 4)\n            throw new InternalParserError('Invalid length');\n        buffer.set(str, offset);\n        return offset + 4;\n    }\n};\n"],
+  "mappings": ";;;;;;;;;;;AAGA,IAAM,cAAc;AAKb,IAAM,cAAc;AAAA,EACvB,KAAK;AAAA,EACL,KAAK,CAAC,KAAK,QAAQ;AACf,UAAM,KAAK,mBAAmB,IAAI,MAAM,KAAK,MAAM,YAAY,GAAG,GAAG,QAAQ;AAC7E,QAAI,CAAC,GAAG,MAAM,WAAW,GAAG;AACxB,YAAM,IAAI,mBAAmB,uCAA4C,MAAM,EAAE,CAAC,KAAK,EAAE,GAAG;AAAA,IAChG;AACA,WAAO;AAAA,EACX;AAAA,EACA,KAAK,CAAC,QAAQ,QAAQ,OAAO;AACzB,UAAM,MAAM,mBAAmB,EAAE;AACjC,QAAI,IAAI,WAAW;AACf,YAAM,IAAI,oBAAoB,gBAAgB;AAClD,WAAO,IAAI,KAAK,MAAM;AACtB,WAAO,SAAS;AAAA,EACpB;AACJ;",
+  "names": []
+}

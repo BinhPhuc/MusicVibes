@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.binhphuc.musicapp.MusicappApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.325 s -- in com.binhphuc.musicapp.MusicappApplicationTests

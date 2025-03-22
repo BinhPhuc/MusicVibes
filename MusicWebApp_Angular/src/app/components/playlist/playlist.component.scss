@@ -1,0 +1,428 @@
+.playlist-container {
+    background-color: #dfefff;
+    padding: 20px;
+    min-height: calc(100vh - 120px);
+}
+
+.section-title {
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.create-playlist-btn {
+    background-color: #1e3c72;
+    color: white;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-bottom: 15px;
+}
+
+.create-playlist-btn:hover {
+    background-color: #163b68;
+    transform: scale(1.05);
+}
+
+.playlist-name {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.playlist-items {
+    list-style: none;
+    padding: 0;
+}
+
+.playlist-items li {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+    background: white;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.playlist-items li:hover {
+    background: #e3f2fd;
+    transform: scale(1.02);
+}
+
+.playlist-items img {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+}
+
+.playlist-info h4 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.playlist-info p {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.playlist-details {
+    margin-top: 105px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    min-height: calc(100vh - 300px);
+}
+
+.playlist-meta {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.table {
+    background: white;
+    border-radius: 10px;
+}
+
+.table thead {
+    background: #1e3c72;
+    color: white;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.action-btn:hover {
+    color: #1e3c72;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+.modal-content {
+    background: #dfefff;
+    color: #1e3c72;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: scale(0.95);
+    transition: transform 0.3s ease-in-out;
+}
+
+.modal-overlay.show-modal {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-overlay.show-modal .modal-content {
+    transform: scale(1);
+}
+
+.edit-input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #1e3c72;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #1e3c72;
+    background: white;
+    outline: none;
+    transition: border 0.3s ease;
+}
+
+.edit-input:focus {
+    border: 2px solid #1e3c72;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.btn-secondary {
+    background: transparent;
+    color: #1e3c72;
+    border: 1px solid #1e3c72;
+    padding: 8px 15px;
+    font-size: 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background: #1e3c72;
+    color: white;
+}
+
+.btn-primary {
+    background: #1e3c72;
+    color: white;
+    padding: 8px 15px;
+    font-size: 14px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: #163b68;
+}
+
+.edit-icon {
+    cursor: pointer;
+    color: #1e3c72;
+    margin-left: 10px;
+    font-size: 18px;
+    transition: color 0.3s;
+    margin-bottom: 15px;
+}
+
+.edit-icon:hover {
+    color: #1e3c72;
+}
+
+.toast-container {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    z-index: 1050;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.toast {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 10px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transform: translateX(100%);
+    opacity: 0;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    min-width: 200px;
+    max-width: 280px;
+    font-size: 14px;
+    gap: 10px;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.toast.hide {
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+.toast.success {
+    background-color: #28a745;
+    color: white;
+}
+
+.toast.error {
+    background-color: #dc3545;
+    color: white;
+}
+
+.toast .toast-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.toast .toast-close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toast .toast-close-btn:hover {
+    color: #f8d7da;
+}
+
+.toast i {
+    font-size: 16px;
+}
+
+.mini-player {
+    position: absolute;
+    top: 110px;
+    left: 869px;
+    transform: translateX(-50%);
+    width: 500px;
+    background: #1e3c72;
+    color: white;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.mini-player-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.mini-player-info i {
+    font-size: 24px;
+}
+
+.mini-player-info h5 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.mini-player-info p {
+    margin: 0;
+    font-size: 12px;
+    color: #ddd;
+}
+
+.mini-player-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.mini-player-controls button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.mini-player-controls button:hover {
+    color: #ffcc00;
+}
+
+.play-cell {
+    width: 40px;
+    text-align: center;
+}
+
+.play-btn {
+    background: none;
+    border: none;
+    font-size: 16px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #1e3c72;
+    transition: color 0.3s ease;
+}
+
+.play-btn:hover {
+    color: #163b68;
+}
+
+tr:hover td {
+    background: #c7d4dd !important;
+    cursor: pointer;
+}
+
+.fav-btn:focus,
+.fav-btn:active {
+    background: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.fav-btn .fa-heart {
+    color: #bbb;
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+.fav-btn .fa-heart.favorited {
+    color: #1e3c72;
+}
+
+// .dropdown-menu {
+//     right: 100% !important; 
+//     left: auto !important;
+//     transform: translateX(-100%);
+//     min-width: 200px; 
+//     white-space: nowrap; 
+// }
+
+.dropdown-item {
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    background-color: #f0f0f0;
+}
+
+.action-group {
+    gap: 10px;
+}
+
+.fav-btn,
+.action-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.action-btn:hover,
+.fav-btn:hover {
+    color: #1e3c72;
+}

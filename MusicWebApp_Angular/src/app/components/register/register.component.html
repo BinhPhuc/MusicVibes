@@ -1,0 +1,132 @@
+<app-login-header></app-login-header>
+<div
+    class="container-fluid d-flex flex-column justify-content-center align-items-center content-container"
+>
+    <div class="register-container">
+        <h2>Đăng ký</h2>
+        <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+            <div class="mb-3">
+                <label for="username" class="form-label">Họ và tên</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="username"
+                    formControlName="username"
+                    placeholder="Nhập họ và tên"
+                />
+                <div
+                    *ngIf="submitted && f['username'].errors"
+                    class="text-danger"
+                >
+                    Họ và tên phải có ít nhất 3 ký tự!
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    formControlName="email"
+                    placeholder="Nhập email của bạn"
+                />
+                <div *ngIf="submitted && f['email'].errors" class="text-danger">
+                    Email không hợp lệ!
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Mật khẩu</label>
+                <div class="password-container">
+                    <input
+                        [type]="showPassword ? 'text' : 'password'"
+                        class="form-control"
+                        id="password"
+                        formControlName="password"
+                        placeholder="Nhập mật khẩu"
+                    />
+                    <i
+                        class="toggle-password fa"
+                        [ngClass]="showPassword ? 'fa-eye' : 'fa-eye-slash'"
+                        (click)="togglePassword()"
+                    ></i>
+                </div>
+                <div
+                    *ngIf="submitted && f['password'].errors"
+                    class="text-danger"
+                >
+                    Mật khẩu phải có ít nhất 6 ký tự!
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="retypePassword" class="form-label"
+                    >Xác nhận mật khẩu</label
+                >
+                <div class="password-container">
+                    <input
+                        [type]="showRetypePassword ? 'text' : 'password'"
+                        class="form-control"
+                        id="retypePassword"
+                        formControlName="retypePassword"
+                        placeholder="Nhập lại mật khẩu"
+                    />
+                    <i
+                        class="toggle-password fa"
+                        [ngClass]="
+                            showRetypePassword ? 'fa-eye' : 'fa-eye-slash'
+                        "
+                        (click)="toggleRetypePassword()"
+                    ></i>
+                </div>
+                <div
+                    *ngIf="submitted && f['retypePassword'].errors"
+                    class="text-danger"
+                >
+                    Vui lòng nhập lại mật khẩu!
+                </div>
+                <div
+                    *ngIf="submitted && registerForm.errors?.['mismatch']"
+                    class="text-danger"
+                >
+                    Mật khẩu không khớp!
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 mt-3">
+                Đăng ký
+            </button>
+        </form>
+
+        <p class="login-text mt-3">
+            Đã có tài khoản?
+            <a routerLink="/login" class="login-link">Đăng nhập</a>
+        </p>
+    </div>
+</div>
+<div class="toast-container">
+    <div
+        class="toast"
+        [ngClass]="{
+            show: isToastVisible,
+            success: toastType === 'success',
+            error: toastType === 'error'
+        }"
+    >
+        <div class="toast-content">
+            <i
+                class="fa-solid"
+                [ngClass]="{
+                    'fa-circle-check': toastType === 'success',
+                    'fa-triangle-exclamation': toastType === 'error'
+                }"
+            ></i>
+            <span>{{ toastMessage }}</span>
+        </div>
+        <button class="toast-close-btn" (click)="hideToast()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+</div>
+<app-login-footer></app-login-footer>
